@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reddy-greans</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a523a; /* Dark green background */
+            color: #ecf0f1; /* Light text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #e74c3c; /* A primary red color */
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #ecf0f1; /* Light text */
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .instructions {
+            background-color: #d35400; /* A darker orange-red for contrast */
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .instructions h2 {
+            color: #2ecc71; /* A bright green for the heading */
+            margin-top: 0;
+        }
+
+        .instructions p {
+            text-align: left;
+            margin: 10px 0;
+            color: #ecf0f1; /* Light text */
+        }
+
+        .word-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #wordButton {
+            background-color: #2ecc71; /* The main green button color */
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #wordButton:hover {
+            background-color: #27ae60; /* Darker green on hover */
+        }
+
+        #wordDisplay {
+            background-color: #ecf0f1; /* White background for the word box */
+            color: #333; /* Dark text for easy reading */
+            font-size: 2em;
+            font-weight: bold;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            min-width: 250px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer {
+            background-color: #e74c3c; /* Matching the header's red */
+            color: #ecf0f1; /* Light text */
+            text-align: center;
+            padding: 10px;
+            margin-top: auto;
+        }
+
+        footer .copyright {
+            font-size: 1em;
+            margin: 0;
+        }
+
+        footer .jj-link {
+            font-size: 0.5em; /* Half the size of the copyright text */
+            margin: 0;
+            color: #ecf0f1; /* White link color */
+            text-decoration: none; /* Removes underline from the link */
+            display: block; /* Makes the link take up its own line */
+        }
+
+        footer .jj-link:hover {
+            text-decoration: underline; /* Adds underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>reddy-greans</h1>
+    </header>
+
+    <main>
+        <div class="instructions">
+            <h2>Instructions 📝</h2>
+            <p>1. Click the button below.</p>
+            <p>2. A random word will appear in the box.</p>
+            <p>3. done!</p>
+        </div>
+
+        <div class="word-container">
+            <button id="wordButton">Get a Random Word</button>
+            <div id="wordDisplay"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="copyright">&copy; 2025 reddy-greans</p>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="jj-link" target="_blank">JJ was here</a>
+    </footer>
+
+    <script>
+        const words = [
+            "apple", "house", "river", "cloud", "happy", "story", "music", "light",
+            "friend", "travel", "garden", "dream", "forest", "ocean", "mountain",
+            "future", "silence", "harmony", "journey", "sunrise", "book", "chair",
+            "table", "keyboard", "mouse", "coffee", "phone", "street", "building",
+            "city", "country", "people", "family", "school", "work", "game", "movie",
+            "song", "art", "paint", "draw", "write", "read", "run", "walk", "jump",
+            "laugh", "cry", "smile", "food", "drink", "water", "air", "sky", "star",
+            "moon", "sun", "wind", "rain", "snow", "ice", "fire", "earth", "world",
+            "life", "death", "love", "hate", "hope", "fear", "courage", "strength",
+            "wisdom", "knowledge", "time", "space", "past", "present", "future",
+            "yesterday", "today", "tomorrow", "week", "month", "year", "minute",
+            "hour", "second", "day", "night", "morning", "evening", "afternoon",
+            "summer", "winter", "spring", "autumn", "tree", "flower", "grass", "stone",
+            "rock", "sand", "dirt", "animal", "dog", "cat", "bird", "fish", "insect",
+            "spider", "bear", "lion", "tiger", "elephant", "giraffe", "monkey", "horse",
+            "cow", "pig", "chicken", "duck", "goose", "sheep", "goat", "rabbit",
+            "squirrel", "fox", "wolf", "bear", "deer", "eagle", "hawk", "owl", "penguin",
+            "dolphin", "whale", "shark", "octopus", "squid", "lobster", "crab", "shrimp",
+            "tuna", "salmon", "cod", "sardine", "herring", "mackerel", "swordfish",
+            "trout", "bass", "perch", "pike", "walleye", "catfish", "eel", "seal",
+            "walrus", "otter", "beaver", "otter", "raccoon", "skunk", "badger", "weasel",
+            "mink", "ferret", "platypus", "kangaroo", "koala", "wombat", "emu", "dodo",
+            "mammoth", "dinosaur", "pterodactyl", "triceratops", "tyrannosaurus",
+            "brachiosaurus", "stegosaurus", "velociraptor", "raptor", "dragon",
+            "unicorn", "phoenix", "griffin", "centaur", "minotaur", "cyclops", "goblin",
+            "troll", "dwarf", "elf", "fairy", "gnome", "sprite", "spirit", "ghost",
+            "angel", "demon", "vampire", "werewolf", "zombie", "robot", "cyborg",
+            "android", "alien", "spaceship", "planet", "galaxy", "universe", "nebula",
+            "comet", "asteroid", "meteor", "satellite", "rocket", "shuttle", "station",
+            "telescope", "microscope", "laboratory", "science", "research", "experiment",
+            "theory", "hypothesis", "fact", "fiction", "novel", "poem", "essay", "letter",
+            "article", "newspaper", "magazine", "booklet", "pamphlet", "flyer", "poster",
+            "advertisement", "commercial", "radio", "television", "internet", "website",
+            "blog", "podcast", "vlog", "video", "audio", "image", "photo", "picture",
+            "painting", "sculpture", "statue", "monument", "memorial", "tombstone",
+            "cemetery", "graveyard", "crypt", "vault", "mausoleum", "catacomb", "pyramid",
+            "temple", "church", "mosque", "synagogue", "cathedral", "chapel", "shrine",
+            "altar", "pulpit", "pew", "aisle", "nave", "transept", "sanctuary", "chancel",
+            "apse", "dome", "spire", "steeple", "tower", "bridge", "tunnel", "road",
+            "highway", "freeway", "expressway", "street", "avenue", "boulevard", "lane",
+            "alley", "path", "trail", "walkway", "sidewalk", "pavement", "curb", "gutter",
+            "drain", "sewer", "manhole", "firehydrant", "lamppost", "streetlamp",
+            "trafficlight", "sign", "billboard", "busstop", "subway", "train", "plane",
+            "car", "truck", "motorcycle", "bicycle", "boat", "ship", "yacht", "submarine"
+        ];
+
+        function getRandomWord() {
+            const randomIndex = Math.floor(Math.random() * words.length);
+            const randomWord = words[randomIndex];
+            document.getElementById('wordDisplay').textContent = randomWord;
+        }
+
+        document.getElementById('wordButton').addEventListener('click', getRandomWord);
+    </script>
+</body>
+</html>
